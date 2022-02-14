@@ -54,7 +54,6 @@ public class ServerThread extends Thread {
         String scontrino=calcolaScontrino(carrello);
         System.out.println(scontrino);
         outVersoClient.writeBytes(scontrino+"\n");
-        outVersoClient.writeBytes("Server in chiusura...");
         outVersoClient.close();
         inDalClient.close();
         client.close();
