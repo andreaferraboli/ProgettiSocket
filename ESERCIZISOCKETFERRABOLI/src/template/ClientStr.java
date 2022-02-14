@@ -5,7 +5,7 @@ import java.net.*;
 
 public class ClientStr {
 
-    String ipServer = "10.1.78.8";
+    String ipServer = "localhost";
     int portaServer = 6789;
 
     Socket clientSocket;
