@@ -1,13 +1,13 @@
-package e_commerce;
+package IRPEF;
 
 
-public class ClientTCP {
+public class ClientTCPIRPEF {
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        ClientStr cliente = new ClientStr();
+        ClientStrIRPEF cliente = new ClientStrIRPEF();
         cliente.connetti();
 
         while (true) {

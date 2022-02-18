@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class ServerThread extends Thread {
+public class ServerThreadCOMMERCE extends Thread {
     HashMap<Integer,Double> articoli=new HashMap<>();
     HashMap<Integer,String> mercato=new HashMap<>();
     ServerSocket server = null;
@@ -21,7 +21,7 @@ public class ServerThread extends Thread {
     BufferedReader inDalClient;
     DataOutputStream outVersoClient;
 
-    public ServerThread(Socket client) throws IOException {
+    public ServerThreadCOMMERCE(Socket client) throws IOException {
         this.client = client;
         inDalClient = new BufferedReader(new InputStreamReader(this.client.getInputStream()));
         outVersoClient = new DataOutputStream(this.client.getOutputStream());

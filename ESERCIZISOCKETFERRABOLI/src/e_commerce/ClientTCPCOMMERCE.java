@@ -1,22 +1,20 @@
-package impiccato;
+package e_commerce;
 
 
-
-
-public class ClientTCP {
+public class ClientTCPCOMMERCE {
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        ClientStr cliente = new ClientStr();
+        ClientStrCOMMERCE cliente = new ClientStrCOMMERCE();
         cliente.connetti();
 
-        while(true) {
+        while (true) {
             cliente.comunica();
         }
 
-        
+
     }
-    
+
 }

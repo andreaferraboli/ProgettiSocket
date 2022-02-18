@@ -7,7 +7,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Scanner;
 
-public class ClientStr {
+public class ClientStrCOMMERCE {
 
     String ipServer = "localhost";
     int portaServer = 6789;

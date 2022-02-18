@@ -1,9 +1,11 @@
+package e_commerce;
 
-package impiccato;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-public class ServerTCP {
+
+public class ServerTCPCOMMERCE {
 
     /**
      * @param args the command line arguments
@@ -13,15 +15,14 @@ public class ServerTCP {
         int serverPort = 6789;
         ServerSocket serverSocket = new ServerSocket(serverPort);
 
-        while(true)
-        {
+        while (true) {
             System.out.println("Server in attesa...");
             Socket newClient = serverSocket.accept();
             System.out.println("Client connesso...");
-            ServerThread clientConnection = new ServerThread(newClient);
+            ServerThreadCOMMERCE clientConnection = new ServerThreadCOMMERCE(newClient);
             clientConnection.start();
 
         }
     }
-    
+
 }
