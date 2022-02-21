@@ -12,7 +12,7 @@ public class ClientTCPIMPICCATO {
         ClientStrIMPICCATO cliente = new ClientStrIMPICCATO();
         cliente.connetti();
 
-        while(true) {
+        while (true) {
             try {
                 cliente.comunica();
             } catch (IOException e) {

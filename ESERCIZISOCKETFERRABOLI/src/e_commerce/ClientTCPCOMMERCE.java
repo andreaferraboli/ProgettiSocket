@@ -1,20 +1,28 @@
 package e_commerce;
 
 
-public class ClientTCPCOMMERCE {
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
-    /**
-     * @param args the command line arguments
-     */
+public class ClientTCPCOMMERCE extends Application {
+
     public static void main(String[] args) {
-        ClientStrCOMMERCE cliente = new ClientStrCOMMERCE();
-        cliente.connetti();
-
-        while (true) {
-            cliente.comunica();
-        }
-
-
+        launch(args);
     }
 
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        Parent root = FXMLLoader.load(getClass().getResource("main.fxml"));
+        Scene scene = new Scene(root);
+
+
+        primaryStage.initStyle(StageStyle.TRANSPARENT);
+        primaryStage.setScene(scene);
+        primaryStage.show();
+
+    }
 }

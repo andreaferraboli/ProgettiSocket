@@ -7,16 +7,14 @@ import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 
 public class ServerThreadCOMMERCE extends Thread {
-    HashMap<Integer,Double> articoli=new HashMap<>();
-    HashMap<Integer,String> mercato=new HashMap<>();
+    ArrayList<Product> articoli = new ArrayList<>();
     ServerSocket server = null;
     Socket client = null;
-    ArrayList<Integer> carrello=new ArrayList<>();
+    ArrayList<Product> carrello = new ArrayList<>();
     String stringaRicevuta = null;
     BufferedReader inDalClient;
     DataOutputStream outVersoClient;
@@ -28,45 +26,93 @@ public class ServerThreadCOMMERCE extends Thread {
     }
 
     public void comunica() throws Exception {
-
-        articoli.put(1,2.50);
-        articoli.put(2,0.99);
-        articoli.put(3,1.50);
-        articoli.put(5,0.50);
-        articoli.put(4,6.00);
-        articoli.put(6,3.99);
-        mercato.put(1,"sapone");
-        mercato.put(2,"carta");
-        mercato.put(3,"pasta");
-        mercato.put(5,"sugo");
-        mercato.put(4,"pizza");
-        mercato.put(6,"gelato");
+        articoli.addAll(getData());
         System.out.println("Esecuzione partita!");
         stringaRicevuta = inDalClient.readLine();
         System.out.println(stringaRicevuta);
-        while (stringaRicevuta != null && Integer.parseInt(stringaRicevuta)!=0) {
+        while (stringaRicevuta != null && Integer.parseInt(stringaRicevuta) != 0) {
             int prodotto = Integer.parseInt(stringaRicevuta);
-            carrello.add(prodotto);
-            outVersoClient.writeBytes("articolo aggiunto correttamente al carrello \n");
-            System.out.println("Stringa ricevuta e trasmessa. ");
+            for (Product articolo : articoli) {
+                if (articolo.getId_product() == prodotto)
+                    carrello.add(articolo);
+            }
+
+            System.out.println("Stringa ricevuta e trasmessa. " + prodotto);
             stringaRicevuta = inDalClient.readLine();
         }
-        String scontrino=calcolaScontrino(carrello);
+        String scontrino = calcolaScontrino(carrello);
         System.out.println(scontrino);
-        outVersoClient.writeBytes(scontrino+"\n");
+        outVersoClient.writeBytes(scontrino + "\n");
         outVersoClient.close();
         inDalClient.close();
         client.close();
     }
 
-    private String calcolaScontrino(ArrayList<Integer> carrelloFinale) throws IOException {
-        StringBuilder scontrino= new StringBuilder();
-        double prezzo=0;
-        for (Integer i:carrelloFinale) {
-            scontrino.append(mercato.get(i)).append(" ").append(articoli.get(i)).append("\n");
-            prezzo+=articoli.get(i);
+    private List<Product> getData() {
+        List<Product> products = new ArrayList<>();
+        Product product;
+
+        product = new Product();
+        product.setId_product(1);
+        product.setName("iphone");
+        product.setPrice(899.99);
+        product.setImgSrc("ESERCIZISOCKETFERRABOLI\\src\\e_commerce\\src/img/iphone.png");
+        products.add(product);
+
+        product = new Product();
+        product.setId_product(2);
+        product.setName("fitbit");
+        product.setPrice(30.99);
+        product.setImgSrc("ESERCIZISOCKETFERRABOLI\\src\\e_commerce\\src/img/fitbit.png");
+        products.add(product);
+
+        product = new Product();
+        product.setId_product(3);
+        product.setName("jbl speaker");
+        product.setPrice(150.50);
+        product.setImgSrc("ESERCIZISOCKETFERRABOLI\\src\\e_commerce\\src/img/jbl_speaker.png");
+        products.add(product);
+
+        product = new Product();
+        product.setId_product(4);
+        product.setName("smartphone");
+        product.setPrice(200.99);
+        product.setImgSrc("ESERCIZISOCKETFERRABOLI\\src\\e_commerce\\src/img/smartphone.png");
+        products.add(product);
+
+        product = new Product();
+        product.setId_product(5);
+        product.setName("speakers");
+        product.setPrice(400.99);
+        product.setImgSrc("ESERCIZISOCKETFERRABOLI\\src\\e_commerce\\src/img/speakers.png");
+        products.add(product);
+
+        product = new Product();
+        product.setId_product(6);
+        product.setName("smartwatch");
+        product.setPrice(100.99);
+        product.setImgSrc("ESERCIZISOCKETFERRABOLI\\src\\e_commerce\\src/img/smartwatch.png");
+        products.add(product);
+
+        product = new Product();
+        product.setId_product(7);
+        product.setName("tv samsung");
+        product.setPrice(1500.99);
+        product.setImgSrc("ESERCIZISOCKETFERRABOLI\\src\\e_commerce\\src/img/tv.png");
+        products.add(product);
+
+
+        return products;
+    }
+
+    private String calcolaScontrino(ArrayList<Product> carrelloFinale) throws IOException {
+        StringBuilder scontrino = new StringBuilder();
+        double prezzo = 0.00;
+        for (Product i : carrelloFinale) {
+            scontrino.append(i.getName()).append(" ").append(i.getPrice()).append("\n");
+            prezzo += i.getPrice();
         }
-        return scontrino+"\n"+"totale spesa:"+prezzo;
+        return scontrino + "\n" + "totale spesa:" + prezzo;
     }
 
 

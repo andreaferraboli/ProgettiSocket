@@ -52,17 +52,17 @@ public class ClientStrCOMMERCE {
 
             outVersoServer.writeBytes(redditoUtente + "\n");
 
-            if(redditoUtente ==0){
+            if (redditoUtente == 0) {
                 System.out.println("\n-----SCONTRINO------");
                 StringBuilder scontrino = new StringBuilder();
                 String line;
-                while( (line = inDalServer.readLine()) != null) {
+                while ((line = inDalServer.readLine()) != null) {
                     scontrino.append(line).append("\n");
                 }
                 stringaRicevutaDalServer = scontrino.toString();
 
-            }else{
-                stringaRicevutaDalServer="ricevuto dal server: " +inDalServer.readLine();
+            } else {
+                stringaRicevutaDalServer = "ricevuto dal server: " + inDalServer.readLine();
             }
             System.out.println(stringaRicevutaDalServer);
 

@@ -1,8 +1,6 @@
 package template;
 
 
-
-
 public class ClientTCP {
 
     /**
@@ -12,11 +10,11 @@ public class ClientTCP {
         ClientStr cliente = new ClientStr();
         cliente.connetti();
 
-        while(true) {
+        while (true) {
             cliente.comunica();
         }
 
-        
+
     }
-    
+
 }

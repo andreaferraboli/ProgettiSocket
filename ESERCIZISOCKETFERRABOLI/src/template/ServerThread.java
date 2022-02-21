@@ -1,12 +1,14 @@
-
 package template;
 
-import java.io.*;
-import java.net.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.ServerSocket;
+import java.net.Socket;
 
 
-public class ServerThread extends Thread{
+public class ServerThread extends Thread {
     ServerSocket server = null;
     Socket client = null;
     String stringaRicevuta = null;
@@ -14,19 +16,18 @@ public class ServerThread extends Thread{
     BufferedReader inDalClient;
     DataOutputStream outVersoClient;
 
-    public ServerThread (Socket client) throws IOException {
+    public ServerThread(Socket client) throws IOException {
         this.client = client;
         inDalClient = new BufferedReader(new InputStreamReader(this.client.getInputStream()));
-        outVersoClient = new DataOutputStream (this.client.getOutputStream());
+        outVersoClient = new DataOutputStream(this.client.getOutputStream());
     }
 
-    public void comunica() throws Exception{
+    public void comunica() throws Exception {
         System.out.println("Esecuzione partita!");
         stringaRicevuta = inDalClient.readLine();
-        while(stringaRicevuta != null && !stringaRicevuta.equals("FINE"))
-        {
+        while (stringaRicevuta != null && !stringaRicevuta.equals("FINE")) {
             stringaModificata = stringaRicevuta.toUpperCase();
-            outVersoClient.writeBytes( stringaModificata + "\n");
+            outVersoClient.writeBytes(stringaModificata + "\n");
             System.out.println("Stringa ricevuta e trasmessa. ");
             stringaRicevuta = inDalClient.readLine();
         }
@@ -37,8 +38,7 @@ public class ServerThread extends Thread{
         client.close();
     }
 
-    public  void run()
-    {
+    public void run() {
         try {
             comunica();
 
@@ -46,5 +46,5 @@ public class ServerThread extends Thread{
             e.printStackTrace();
         }
     }
-    
+
 }
