@@ -109,10 +109,11 @@ public class ServerThreadCOMMERCE extends Thread {
         StringBuilder scontrino = new StringBuilder();
         double prezzo = 0.00;
         for (Product i : carrelloFinale) {
-            scontrino.append(i.getName()).append(" ").append(i.getPrice()).append("\n");
+            scontrino.append(i.getName()).append(";").append(i.getPrice()).append("\n");
             prezzo += i.getPrice();
         }
-        return scontrino + "\n" +"totale spesa:"+prezzo;
+//        return scontrino + "\n";
+        return scontrino + "\n"+"totale;"+prezzo+"\n" ;
     }
 
 

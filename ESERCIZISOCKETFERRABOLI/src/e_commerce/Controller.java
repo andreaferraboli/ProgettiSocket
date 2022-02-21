@@ -8,6 +8,7 @@ import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -40,7 +41,7 @@ public class Controller implements Initializable {
     @FXML
     private VBox chosenProductsCard;
     @FXML
-    private Label productNameLable;
+    private Label contoTotale;
     @FXML
     private Label productPriceLabel;
     @FXML
@@ -50,9 +51,9 @@ public class Controller implements Initializable {
     @FXML
     private Group shoppingCart;
     @FXML
-    private ListView receiptBuilder;
+    private TextArea receiptBuilder;
     @FXML
-    private ListView receiptPriceBuilder;
+    private TextArea receiptPriceBuilder;
     @FXML
     private GridPane grid;
     private Image image;
@@ -141,7 +142,7 @@ public class Controller implements Initializable {
                 AnchorPane anchorPane = fxmlLoader.load();
                 anchorPane.setOnMouseClicked(mouseEvent -> {
                     numberOfProducts.setText(String.valueOf(Integer.parseInt(numberOfProducts.getText()) + 1));
-                    anchorPane.setStyle("-fx-background-color: #137903");
+                    anchorPane.setStyle("-fx-background-color: #137903;-fx-border-radius:30px");
                     PauseTransition pause = new PauseTransition(
                             Duration.seconds(0.2)
                     );
@@ -185,19 +186,27 @@ public class Controller implements Initializable {
                     StringBuilder scontrino = new StringBuilder();
                     String line;
                     try {
+                        StringBuilder descrizione=new StringBuilder();
+                        StringBuilder prezzo=new StringBuilder();
                         while ((line = inDalServer.readLine()) != null) {
 //                            if(line.contains("totale spesa")) {
 //                                receiptBuilder.getItems().add(new Label("SPESA TOTALE:"));
 //                                receiptPriceBuilder.getItems().add(new Label(line.replace("totale spesa:", "")));
 //                            }else{
-//                            String[] parts = line.split(";");
-//                            String part1 = parts[0];
-//                            String part2 = parts[1];
-//                            scontrino.append(line).append("\n");
-//                            receiptBuilder.getItems().add(new Label(part1));
-//                            receiptPriceBuilder.getItems().add(new Label(part2));
-                                receiptBuilder.getItems().add(new Label(line));
+                            if (line.contains("totale")){
+                                String[] parts = line.split(";");
+                                contoTotale.setText(parts[1]);
+                            } else if (!line.equals("")){
+                                String[] parts = line.split(";");
+                                descrizione.append(parts[0]+"\n");
+                                prezzo.append(parts[1]+"\n");
+                                receiptBuilder.setText(descrizione.toString());
+                                receiptPriceBuilder.setText(prezzo.toString());
                             }
+//                            scontrino.append(line).append("\n");
+
+                        }
+
 
 
                         stringaRicevutaDalServer = scontrino.toString();

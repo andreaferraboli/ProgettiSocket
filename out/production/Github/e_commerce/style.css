@@ -49,3 +49,6 @@
     -fx-background-color: #FFFFFF;
     -fx-background-radius: 30;
 }
+#text-area *.text {
+    -fx-text-alignment: center;
+}
