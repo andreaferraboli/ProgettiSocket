@@ -52,6 +52,8 @@ public class Controller implements Initializable {
     @FXML
     private ListView receiptBuilder;
     @FXML
+    private ListView receiptPriceBuilder;
+    @FXML
     private GridPane grid;
     private Image image;
 
@@ -184,14 +186,23 @@ public class Controller implements Initializable {
                     String line;
                     try {
                         while ((line = inDalServer.readLine()) != null) {
-                            scontrino.append(line).append("\n");
-                            receiptBuilder.getItems().add(new Label(line));
-                        }
+//                            if(line.contains("totale spesa")) {
+//                                receiptBuilder.getItems().add(new Label("SPESA TOTALE:"));
+//                                receiptPriceBuilder.getItems().add(new Label(line.replace("totale spesa:", "")));
+//                            }else{
+//                            String[] parts = line.split(";");
+//                            String part1 = parts[0];
+//                            String part2 = parts[1];
+//                            scontrino.append(line).append("\n");
+//                            receiptBuilder.getItems().add(new Label(part1));
+//                            receiptPriceBuilder.getItems().add(new Label(part2));
+                                receiptBuilder.getItems().add(new Label(line));
+                            }
+
 
                         stringaRicevutaDalServer = scontrino.toString();
                         System.out.println(stringaRicevutaDalServer);
                         clientSocket.close();
-
 
                     } catch (Exception e) {
                         e.printStackTrace();

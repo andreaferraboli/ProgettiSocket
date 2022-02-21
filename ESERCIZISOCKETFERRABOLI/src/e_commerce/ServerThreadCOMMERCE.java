@@ -112,7 +112,7 @@ public class ServerThreadCOMMERCE extends Thread {
             scontrino.append(i.getName()).append(" ").append(i.getPrice()).append("\n");
             prezzo += i.getPrice();
         }
-        return scontrino + "\n" + "totale spesa:" + prezzo;
+        return scontrino + "\n" +"totale spesa:"+prezzo;
     }
 
 
