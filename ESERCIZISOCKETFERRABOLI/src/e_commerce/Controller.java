@@ -32,22 +32,15 @@ public class Controller implements Initializable {
     public static int numberOfProductsCounter;
     public static DataOutputStream outVersoServer;
     private final List<Product> products = new ArrayList<>();
-    public int index = -1;
     String ipServer = "localhost";
     int portaServer = 6789;
     Socket clientSocket;
     String stringaRicevutaDalServer;
     BufferedReader inDalServer;
     @FXML
-    private VBox chosenProductsCard;
-    @FXML
     private Label contoTotale;
     @FXML
-    private Label productPriceLabel;
-    @FXML
     private Label numberOfProducts;
-    @FXML
-    private ImageView productImg;
     @FXML
     private Group shoppingCart;
     @FXML
@@ -56,7 +49,6 @@ public class Controller implements Initializable {
     private TextArea receiptPriceBuilder;
     @FXML
     private GridPane grid;
-    private Image image;
 
     private List<Product> getData() {
         List<Product> products = new ArrayList<>();
@@ -142,7 +134,7 @@ public class Controller implements Initializable {
                 AnchorPane anchorPane = fxmlLoader.load();
                 anchorPane.setOnMouseClicked(mouseEvent -> {
                     numberOfProducts.setText(String.valueOf(Integer.parseInt(numberOfProducts.getText()) + 1));
-                    anchorPane.setStyle("-fx-background-color: #137903;-fx-border-radius:30px");
+                    anchorPane.setId("product");
                     PauseTransition pause = new PauseTransition(
                             Duration.seconds(0.2)
                     );
