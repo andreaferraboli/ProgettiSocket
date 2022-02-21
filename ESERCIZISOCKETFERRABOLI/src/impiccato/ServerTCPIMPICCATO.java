@@ -12,7 +12,7 @@ public class ServerTCPIMPICCATO {
      */
     public static void main(String[] args) throws IOException {
 
-        int serverPort = 6789;
+        int serverPort = 6791;
         ServerSocket serverSocket = new ServerSocket(serverPort);
 
         while (true) {

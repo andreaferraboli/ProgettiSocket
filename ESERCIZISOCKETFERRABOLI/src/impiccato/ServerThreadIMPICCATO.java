@@ -9,6 +9,7 @@ import java.util.*;
 public class ServerThreadIMPICCATO extends Thread {
     ServerSocket server = null;
     int tentativi = 9;
+    boolean guessed;
     Socket client = null;
     String stringaRicevuta = null;
     String secretWord = generateSecretWord();
@@ -25,7 +26,7 @@ public class ServerThreadIMPICCATO extends Thread {
     public void comunica() throws Exception {
 //        System.out.println(inDalClient.readLine());
 //        if (inDalClient.readLine().equals("gioca"))
-//            outVersoClient.writeBytes("parola da indovinare:"+guessedWord+"\n");
+        outVersoClient.writeBytes("parola da indovinare:"+guessedWord+"\n");
         while (tentativi != 0) {
             stringaRicevuta = inDalClient.readLine().toLowerCase(Locale.ROOT);
             if (stringaRicevuta.equals("fine")) {
@@ -41,8 +42,9 @@ public class ServerThreadIMPICCATO extends Thread {
                     outVersoClient.writeBytes("complimenti hai indovinato la parola " + secretWord + "\n");
                     close();
                 } else {
-                    outVersoClient.writeBytes("parola da indovinare:" + guessedWord + " numero tentativi rimasti:" + tentativi + "\n");
-                    tentativi--;
+                    outVersoClient.writeBytes("parola da indovinare:" + guessedWord + " numero tentativi rimasti:" + (guessed?tentativi:tentativi-1) + "\n");
+                    if (!guessed)
+                        tentativi--;
                 }
             }
 
@@ -59,12 +61,15 @@ public class ServerThreadIMPICCATO extends Thread {
     }
 
     private boolean checkAttempt(char charAt) {
+        guessed=false;
         StringBuilder temp = new StringBuilder();
         for (int i = 0; i < secretWord.length(); i++) {
-            if (charAt == secretWord.charAt(i))
+            if (charAt == secretWord.charAt(i)) {
                 temp.append(charAt);
-            else {
-                temp.append(guessedWord.charAt(i));
+                if (!(i==0 || i==secretWord.length()-1))
+                    guessed=true;
+            } else {
+                    temp.append(guessedWord.charAt(i));
             }
         }
         guessedWord = temp.toString();
