@@ -17,10 +17,7 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.Socket;
 import java.net.URL;
 import java.net.UnknownHostException;
@@ -30,13 +27,13 @@ import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
     public static int numberOfProductsCounter;
-    public static DataOutputStream outVersoServer;
-    private final List<Product> products = new ArrayList<>();
+    public static ObjectOutputStream outVersoServer;
+    private List<Product> products = new ArrayList<>();
     String ipServer = "localhost";
     int portaServer = 6789;
     Socket clientSocket;
     String stringaRicevutaDalServer;
-    BufferedReader inDalServer;
+    ObjectInputStream inDalServer;
     @FXML
     private Label contoTotale;
     @FXML
@@ -50,60 +47,60 @@ public class Controller implements Initializable {
     @FXML
     private GridPane grid;
 
-    private List<Product> getData() {
-        List<Product> products = new ArrayList<>();
-        Product product;
+    private List<Product> getData() throws IOException, ClassNotFoundException {
+            products=(List<Product>)inDalServer.readObject();
 
-        product = new Product();
-        product.setId_product(1);
-        product.setName("iphone");
-        product.setPrice(899.99);
-        product.setImgSrc("ESERCIZISOCKETFERRABOLI\\src\\e_commerce\\src/img/iphone.png");
-        products.add(product);
-
-        product = new Product();
-        product.setId_product(2);
-        product.setName("fitbit");
-        product.setPrice(30.99);
-        product.setImgSrc("ESERCIZISOCKETFERRABOLI\\src\\e_commerce\\src/img/fitbit.png");
-        products.add(product);
-
-        product = new Product();
-        product.setId_product(3);
-        product.setName("jbl speaker");
-        product.setPrice(150.50);
-        product.setImgSrc("ESERCIZISOCKETFERRABOLI\\src\\e_commerce\\src/img/jbl_speaker.png");
-        products.add(product);
-
-        product = new Product();
-        product.setId_product(4);
-        product.setName("smartphone");
-        product.setPrice(200.99);
-        product.setImgSrc("ESERCIZISOCKETFERRABOLI\\src\\e_commerce\\src/img/smartphone.png");
-        products.add(product);
-
-        product = new Product();
-        product.setId_product(5);
-        product.setName("speakers");
-        product.setPrice(400.99);
-        product.setImgSrc("ESERCIZISOCKETFERRABOLI\\src\\e_commerce\\src/img/speakers.png");
-        products.add(product);
-
-        product = new Product();
-        product.setId_product(6);
-        product.setName("smartwatch");
-        product.setPrice(100.99);
-        product.setImgSrc("ESERCIZISOCKETFERRABOLI\\src\\e_commerce\\src/img/smartwatch.png");
-        products.add(product);
-
-        product = new Product();
-        product.setId_product(7);
-        product.setName("tv samsung");
-        product.setPrice(1500.99);
-        product.setImgSrc("ESERCIZISOCKETFERRABOLI\\src\\e_commerce\\src/img/tv.png");
-        products.add(product);
-
-
+//        List<Product> products = new ArrayList<>();
+//        Product product;
+//
+//        product = new Product();
+//        product.setId_product(1);
+//        product.setName("iphone");
+//        product.setPrice(899.99);
+//        product.setImgSrc("ESERCIZISOCKETFERRABOLI\\src\\e_commerce\\src/img/iphone.png");
+//        products.add(product);
+//
+//        product = new Product();
+//        product.setId_product(2);
+//        product.setName("fitbit");
+//        product.setPrice(30.99);
+//        product.setImgSrc("ESERCIZISOCKETFERRABOLI\\src\\e_commerce\\src/img/fitbit.png");
+//        products.add(product);
+//
+//        product = new Product();
+//        product.setId_product(3);
+//        product.setName("jbl speaker");
+//        product.setPrice(150.50);
+//        product.setImgSrc("ESERCIZISOCKETFERRABOLI\\src\\e_commerce\\src/img/jbl_speaker.png");
+//        products.add(product);
+//
+//        product = new Product();
+//        product.setId_product(4);
+//        product.setName("smartphone");
+//        product.setPrice(200.99);
+//        product.setImgSrc("ESERCIZISOCKETFERRABOLI\\src\\e_commerce\\src/img/smartphone.png");
+//        products.add(product);
+//
+//        product = new Product();
+//        product.setId_product(5);
+//        product.setName("speakers");
+//        product.setPrice(400.99);
+//        product.setImgSrc("ESERCIZISOCKETFERRABOLI\\src\\e_commerce\\src/img/speakers.png");
+//        products.add(product);
+//
+//        product = new Product();
+//        product.setId_product(6);
+//        product.setName("smartwatch");
+//        product.setPrice(100.99);
+//        product.setImgSrc("ESERCIZISOCKETFERRABOLI\\src\\e_commerce\\src/img/smartwatch.png");
+//        products.add(product);
+//
+//        product = new Product();
+//        product.setId_product(7);
+//        product.setName("tv samsung");
+//        product.setPrice(1500.99);
+//        product.setImgSrc("ESERCIZISOCKETFERRABOLI\\src\\e_commerce\\src/img/tv.png");
+//        products.add(product);
         return products;
     }
 
@@ -114,8 +111,8 @@ public class Controller implements Initializable {
         try {
             System.out.println("Client partito in esecuzione");
             clientSocket = new Socket(ipServer, portaServer);
-            outVersoServer = new DataOutputStream(clientSocket.getOutputStream());
-            inDalServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+            outVersoServer = new ObjectOutputStream(clientSocket.getOutputStream());
+            inDalServer = new ObjectInputStream(clientSocket.getInputStream());
         } catch (UnknownHostException e) {
             System.err.println("Host sconosciuto");
         } catch (Exception e) {
@@ -123,7 +120,13 @@ public class Controller implements Initializable {
             System.exit(1);
         }
 
-        products.addAll(getData());
+        try {
+            products.addAll(getData());
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
         numberOfProducts.setText(String.valueOf(0));
         int column = 0;
         int row = 1;
@@ -134,12 +137,12 @@ public class Controller implements Initializable {
                 AnchorPane anchorPane = fxmlLoader.load();
                 anchorPane.setOnMouseClicked(mouseEvent -> {
                     numberOfProducts.setText(String.valueOf(Integer.parseInt(numberOfProducts.getText()) + 1));
-                    anchorPane.setId("product");
+                    anchorPane.setId("productPressed");
                     PauseTransition pause = new PauseTransition(
                             Duration.seconds(0.2)
                     );
                     pause.setOnFinished(event -> {
-                        anchorPane.setStyle("-fx-background-color: rgba(255,255,255,0)");
+                        anchorPane.setId("product");
                     });
                     pause.play();
 

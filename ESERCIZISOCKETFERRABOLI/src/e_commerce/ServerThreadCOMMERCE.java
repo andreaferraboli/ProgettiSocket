@@ -1,9 +1,6 @@
 package e_commerce;
 
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -16,18 +13,22 @@ public class ServerThreadCOMMERCE extends Thread {
     Socket client = null;
     ArrayList<Product> carrello = new ArrayList<>();
     String stringaRicevuta = null;
-    BufferedReader inDalClient;
-    DataOutputStream outVersoClient;
+    ObjectInputStream inDalClient;
+    ObjectOutputStream outVersoClient;
 
     public ServerThreadCOMMERCE(Socket client) throws IOException {
         this.client = client;
-        inDalClient = new BufferedReader(new InputStreamReader(this.client.getInputStream()));
-        outVersoClient = new DataOutputStream(this.client.getOutputStream());
+        outVersoClient = new ObjectOutputStream(this.client.getOutputStream());
+        inDalClient = new ObjectInputStream(this.client.getInputStream());
     }
 
     public void comunica() throws Exception {
         articoli.addAll(getData());
+
+            outVersoClient.writeObject(articoli);
+
         System.out.println("Esecuzione partita!");
+
         stringaRicevuta = inDalClient.readLine();
         System.out.println(stringaRicevuta);
         while (stringaRicevuta != null && Integer.parseInt(stringaRicevuta) != 0) {
@@ -101,6 +102,19 @@ public class ServerThreadCOMMERCE extends Thread {
         product.setImgSrc("ESERCIZISOCKETFERRABOLI\\src\\e_commerce\\src/img/tv.png");
         products.add(product);
 
+        product = new Product();
+        product.setId_product(8);
+        product.setName("ps5");
+        product.setPrice(500.99);
+        product.setImgSrc("ESERCIZISOCKETFERRABOLI\\src\\e_commerce\\src/img/ps5.png");
+        products.add(product);
+
+        product = new Product();
+        product.setId_product(9);
+        product.setName("lavatrice");
+        product.setPrice(700.99);
+        product.setImgSrc("ESERCIZISOCKETFERRABOLI\\src\\e_commerce\\src/img/lavatrice.png");
+        products.add(product);
 
         return products;
     }

@@ -20,7 +20,6 @@ public class ClientTCPCOMMERCE extends Application {
         Scene scene = new Scene(root);
 
 
-        primaryStage.initStyle(StageStyle.TRANSPARENT);
         primaryStage.setScene(scene);
         primaryStage.show();
 

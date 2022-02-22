@@ -1,6 +1,8 @@
 package e_commerce;
 
-public class Product {
+import java.io.Serializable;
+
+public class Product implements Serializable {
     private int id_product;
     private String name;
     private String imgSrc;
