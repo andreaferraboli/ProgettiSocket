@@ -27,6 +27,7 @@ import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
     private static Controller instance;
+    AnchorPane anchorPane;
     public static DataOutputStream outVersoServer;
     private List<Product> products = new ArrayList<>();
     String ipServer = "localhost";
@@ -88,19 +89,6 @@ public class Controller implements Initializable {
                 FXMLLoader fxmlLoader = new FXMLLoader();
                 fxmlLoader.setLocation(getClass().getResource("item.fxml"));
                 AnchorPane anchorPane = fxmlLoader.load();
-                anchorPane.setOnMouseClicked(mouseEvent -> {
-                    numberOfProducts.setText(String.valueOf(Integer.parseInt(numberOfProducts.getText()) + 1));
-                    anchorPane.setId("productPressed");
-                    PauseTransition pause = new PauseTransition(
-                            Duration.seconds(0.2)
-                    );
-                    pause.setOnFinished(event -> {
-                        anchorPane.setId("product");
-                    });
-                    pause.play();
-
-
-                });
 
                 ItemController itemController = fxmlLoader.getController();
                 itemController.setData(products.get(i));

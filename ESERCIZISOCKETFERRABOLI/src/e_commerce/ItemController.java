@@ -1,11 +1,14 @@
 package e_commerce;
 
+import javafx.animation.PauseTransition;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.util.Duration;
 
 
 import java.io.FileInputStream;
@@ -26,6 +29,8 @@ public class ItemController {
     private Button numberOfItem;
     @FXML
     private ImageView img;
+    @FXML
+    private AnchorPane itemAnchorPane;
     private Product product;
 
     @FXML
@@ -38,7 +43,7 @@ public class ItemController {
     public void setData(Product product) throws IOException {
         this.product = product;
         nameLabel.setText(product.getName());
-        priceLable.setText(product.getPrice() + "$");
+        priceLable.setText(product.getPrice() + "€");
         Label numberOfProducts = Controller.getInstance().numberOfProducts;
 
         buyButton.setOnMouseClicked(mouseEvent -> {
@@ -49,6 +54,14 @@ public class ItemController {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            itemAnchorPane.setId("productBought");
+            PauseTransition pause = new PauseTransition(
+                    Duration.seconds(0.2)
+            );
+            pause.setOnFinished(event -> {
+                itemAnchorPane.setId("product");
+            });
+            pause.play();
         });
         sellButton.setOnMouseClicked(mouseEvent -> {
             if(Integer.parseInt(numberOfItem.getText()) != 0){
@@ -59,6 +72,14 @@ public class ItemController {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                itemAnchorPane.setId("productRemoved");
+                    PauseTransition pause = new PauseTransition(
+                            Duration.seconds(0.2)
+                    );
+                    pause.setOnFinished(event -> {
+                        itemAnchorPane.setId("product");
+                    });
+                    pause.play();
             }
 
         });
