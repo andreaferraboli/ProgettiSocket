@@ -26,18 +26,20 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
-    public static int numberOfProductsCounter;
-    public static ObjectOutputStream outVersoServer;
+    private static Controller instance;
+    public static DataOutputStream outVersoServer;
     private List<Product> products = new ArrayList<>();
     String ipServer = "localhost";
     int portaServer = 6789;
+    int portaProduct = 6790;
     Socket clientSocket;
+    Socket productSocket;
     String stringaRicevutaDalServer;
-    ObjectInputStream inDalServer;
+    BufferedReader inDalServer;
+    ObjectInputStream productsFromServer;
     @FXML
     private Label contoTotale;
-    @FXML
-    private Label numberOfProducts;
+    public Label numberOfProducts;
     @FXML
     private Group shoppingCart;
     @FXML
@@ -48,71 +50,22 @@ public class Controller implements Initializable {
     private GridPane grid;
 
     private List<Product> getData() throws IOException, ClassNotFoundException {
-            products=(List<Product>)inDalServer.readObject();
-
-//        List<Product> products = new ArrayList<>();
-//        Product product;
-//
-//        product = new Product();
-//        product.setId_product(1);
-//        product.setName("iphone");
-//        product.setPrice(899.99);
-//        product.setImgSrc("ESERCIZISOCKETFERRABOLI\\src\\e_commerce\\src/img/iphone.png");
-//        products.add(product);
-//
-//        product = new Product();
-//        product.setId_product(2);
-//        product.setName("fitbit");
-//        product.setPrice(30.99);
-//        product.setImgSrc("ESERCIZISOCKETFERRABOLI\\src\\e_commerce\\src/img/fitbit.png");
-//        products.add(product);
-//
-//        product = new Product();
-//        product.setId_product(3);
-//        product.setName("jbl speaker");
-//        product.setPrice(150.50);
-//        product.setImgSrc("ESERCIZISOCKETFERRABOLI\\src\\e_commerce\\src/img/jbl_speaker.png");
-//        products.add(product);
-//
-//        product = new Product();
-//        product.setId_product(4);
-//        product.setName("smartphone");
-//        product.setPrice(200.99);
-//        product.setImgSrc("ESERCIZISOCKETFERRABOLI\\src\\e_commerce\\src/img/smartphone.png");
-//        products.add(product);
-//
-//        product = new Product();
-//        product.setId_product(5);
-//        product.setName("speakers");
-//        product.setPrice(400.99);
-//        product.setImgSrc("ESERCIZISOCKETFERRABOLI\\src\\e_commerce\\src/img/speakers.png");
-//        products.add(product);
-//
-//        product = new Product();
-//        product.setId_product(6);
-//        product.setName("smartwatch");
-//        product.setPrice(100.99);
-//        product.setImgSrc("ESERCIZISOCKETFERRABOLI\\src\\e_commerce\\src/img/smartwatch.png");
-//        products.add(product);
-//
-//        product = new Product();
-//        product.setId_product(7);
-//        product.setName("tv samsung");
-//        product.setPrice(1500.99);
-//        product.setImgSrc("ESERCIZISOCKETFERRABOLI\\src\\e_commerce\\src/img/tv.png");
-//        products.add(product);
+            products=(List<Product>)productsFromServer.readObject();
         return products;
     }
 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        instance=this;
         //connection
         try {
             System.out.println("Client partito in esecuzione");
             clientSocket = new Socket(ipServer, portaServer);
-            outVersoServer = new ObjectOutputStream(clientSocket.getOutputStream());
-            inDalServer = new ObjectInputStream(clientSocket.getInputStream());
+            productSocket=new Socket(ipServer,portaProduct);
+            outVersoServer = new DataOutputStream(clientSocket.getOutputStream());
+            inDalServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+            productsFromServer = new ObjectInputStream(productSocket.getInputStream());
         } catch (UnknownHostException e) {
             System.err.println("Host sconosciuto");
         } catch (Exception e) {
@@ -190,11 +143,11 @@ public class Controller implements Initializable {
 //                            }else{
                             if (line.contains("totale")){
                                 String[] parts = line.split(";");
-                                contoTotale.setText(parts[1]);
+                                contoTotale.setText(parts[1]+"€");
                             } else if (!line.equals("")){
                                 String[] parts = line.split(";");
                                 descrizione.append(parts[0]+"\n");
-                                prezzo.append(parts[1]+"\n");
+                                prezzo.append(parts[1]+"€\n");
                                 receiptBuilder.setText(descrizione.toString());
                                 receiptPriceBuilder.setText(prezzo.toString());
                             }
@@ -218,5 +171,9 @@ public class Controller implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static Controller getInstance() {
+        return instance;
     }
 }

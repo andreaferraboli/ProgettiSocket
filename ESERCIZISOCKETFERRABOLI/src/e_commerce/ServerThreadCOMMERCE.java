@@ -11,21 +11,25 @@ public class ServerThreadCOMMERCE extends Thread {
     ArrayList<Product> articoli = new ArrayList<>();
     ServerSocket server = null;
     Socket client = null;
+    Socket products = null;
     ArrayList<Product> carrello = new ArrayList<>();
     String stringaRicevuta = null;
-    ObjectInputStream inDalClient;
-    ObjectOutputStream outVersoClient;
+    BufferedReader inDalClient;
+    DataOutputStream outVersoClient;
+    ObjectOutputStream productsToClient;
 
-    public ServerThreadCOMMERCE(Socket client) throws IOException {
+    public ServerThreadCOMMERCE(Socket client,Socket products) throws IOException {
         this.client = client;
-        outVersoClient = new ObjectOutputStream(this.client.getOutputStream());
-        inDalClient = new ObjectInputStream(this.client.getInputStream());
+        this.products = products;
+        inDalClient = new BufferedReader(new InputStreamReader(this.client.getInputStream()));
+        outVersoClient = new DataOutputStream(this.client.getOutputStream());
+        productsToClient=new ObjectOutputStream(this.products.getOutputStream());
     }
 
     public void comunica() throws Exception {
         articoli.addAll(getData());
 
-            outVersoClient.writeObject(articoli);
+            productsToClient.writeObject(articoli);
 
         System.out.println("Esecuzione partita!");
 
@@ -33,10 +37,20 @@ public class ServerThreadCOMMERCE extends Thread {
         System.out.println(stringaRicevuta);
         while (stringaRicevuta != null && Integer.parseInt(stringaRicevuta) != 0) {
             int prodotto = Integer.parseInt(stringaRicevuta);
-            for (Product articolo : articoli) {
-                if (articolo.getId_product() == prodotto)
-                    carrello.add(articolo);
+            if(prodotto > 0) {
+                for (Product articolo : articoli) {
+                    if (articolo.getId_product() == prodotto)
+                        carrello.add(articolo);
+                }
+            }else{
+                prodotto=-prodotto;
+                for (Product articolo : articoli) {
+                    if (articolo.getId_product() == prodotto)
+                        carrello.remove(articolo);
+                }
             }
+
+
 
             System.out.println("Stringa ricevuta e trasmessa. " + prodotto);
             stringaRicevuta = inDalClient.readLine();
@@ -55,7 +69,7 @@ public class ServerThreadCOMMERCE extends Thread {
 
         product = new Product();
         product.setId_product(1);
-        product.setName("iphone");
+        product.setName("iPhone");
         product.setPrice(899.99);
         product.setImgSrc("ESERCIZISOCKETFERRABOLI\\src\\e_commerce\\src/img/iphone.png");
         products.add(product);
@@ -69,7 +83,7 @@ public class ServerThreadCOMMERCE extends Thread {
 
         product = new Product();
         product.setId_product(3);
-        product.setName("jbl speaker");
+        product.setName("JBL speaker");
         product.setPrice(150.50);
         product.setImgSrc("ESERCIZISOCKETFERRABOLI\\src\\e_commerce\\src/img/jbl_speaker.png");
         products.add(product);
@@ -97,14 +111,14 @@ public class ServerThreadCOMMERCE extends Thread {
 
         product = new Product();
         product.setId_product(7);
-        product.setName("tv samsung");
+        product.setName("TV Samsung");
         product.setPrice(1500.99);
         product.setImgSrc("ESERCIZISOCKETFERRABOLI\\src\\e_commerce\\src/img/tv.png");
         products.add(product);
 
         product = new Product();
         product.setId_product(8);
-        product.setName("ps5");
+        product.setName("PS5");
         product.setPrice(500.99);
         product.setImgSrc("ESERCIZISOCKETFERRABOLI\\src\\e_commerce\\src/img/ps5.png");
         products.add(product);

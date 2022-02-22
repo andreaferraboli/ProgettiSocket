@@ -6,10 +6,25 @@
  -fx-text-fill:#BAEAC3;
 }
 #sfondo{
-    -fx-background-color: #1b2141;
+    -fx-background-color: #0e1d40;
+}
+.buyButton{
+    -fx-background-color: #BAEAC3;
+    -fx-background-radius: 50;
+     -fx-text-fill:#000000;
+}
+.sellButton{
+    -fx-background-color: #ff0000;
+    -fx-background-radius: 50;
+     -fx-text-fill:#FFFFFF;
 }
 #carrello{
     -fx-background-color: #ffffff;
+    -fx-background-radius: 100;
+}
+.numberOfProducts{
+    -fx-background-color: #0e1d40;
+    -fx-text-fill:#FFFFFF;
     -fx-background-radius: 100;
 }
 #product{

@@ -1,35 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Group?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<?import java.lang.String?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" onMousePressed="#click" stylesheets="@style.css"
-            xmlns="http://javafx.com/javafx/11.0.2" fx:controller="e_commerce.ItemController">
+
+<AnchorPane onMousePressed="#click" prefHeight="258.0" prefWidth="225.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="e_commerce.ItemController">
     <children>
-        <VBox alignment="TOP_CENTER" layoutX="63.0" layoutY="8.0" prefHeight="215.0" prefWidth="225.0"
-              AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
-              AnchorPane.topAnchor="0.0">
+        <VBox alignment="TOP_CENTER" layoutX="63.0" layoutY="8.0" prefHeight="258.0" prefWidth="225.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
-                <Label fx:id="nameLabel" alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308"
-                       prefHeight="49.0" prefWidth="137.0" text="Cherry" textOverrun="WORD_ELLIPSIS">
+                <Label fx:id="nameLabel" alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" prefHeight="49.0" prefWidth="137.0" text="Cherry" textOverrun="WORD_ELLIPSIS">
                     <font>
-                        <Font name="Cambria" size="24.0"/>
+                        <Font name="Cambria" size="24.0" />
                     </font>
                 </Label>
-                <Label fx:id="priceLable" alignment="CENTER" contentDisplay="CENTER" graphicTextGap="0.0"
-                       prefHeight="49.0" prefWidth="101.0" text="\$0.99" textFill="RED">
+                <Label fx:id="priceLable" alignment="CENTER" contentDisplay="CENTER" graphicTextGap="0.0" prefHeight="49.0" prefWidth="101.0" text="\$0.99" textFill="RED">
                     <font>
-                        <Font name="Cambria Bold" size="18.0"/>
+                        <Font name="Cambria Bold" size="18.0" />
                     </font>
                 </Label>
-                <ImageView fx:id="img" fitHeight="115.0" fitWidth="180.0" pickOnBounds="true" preserveRatio="true">
-                    <image>
-                        <Image url="@src/img/iphone.png"/>
-                    </image>
-                </ImageView>
+            <Group cache="true">
+               <children>
+                      <ImageView fx:id="img" fitHeight="115.0" fitWidth="180.0" pickOnBounds="true" preserveRatio="true">
+                          <image>
+                              <Image url="@src/img/iphone.png" />
+                          </image>
+                      </ImageView>
+                  <Button fx:id="numberOfItem" alignment="CENTER" contentDisplay="RIGHT" layoutX="70.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="33.0" styleClass="numberOfProducts" stylesheets="@style.css" text="0" />
+               </children>
+            </Group>
+            <HBox spacing="10.0">
+               <children>
+                  <Button fx:id="buyButton" alignment="CENTER" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" styleClass="buyButton" stylesheets="@style.css" text="ACQUISTA">
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="sellButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" styleClass="sellButton" stylesheets="@style.css" text="VENDI" />
+               </children>
+            </HBox>
             </children>
         </VBox>
     </children>
