@@ -12,7 +12,7 @@ public class ServerTCPIRPEF {
      */
     public static void main(String[] args) throws IOException {
 
-        int serverPort = 6789;
+        int serverPort = 6788;
         ServerSocket serverSocket = new ServerSocket(serverPort);
 
         while (true) {

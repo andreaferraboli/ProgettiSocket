@@ -1,87 +1,95 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.Group?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
-
-<AnchorPane fx:id="sfondo" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="810.0" prefWidth="977.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="e_commerce.Controller">
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:id="sfondo" maxHeight="-Infinity" maxWidth="-Infinity"
+            minHeight="-Infinity"
+            minWidth="-Infinity" prefHeight="810.0" prefWidth="977.0" stylesheets="@style.css"
+            xmlns="http://javafx.com/javafx/17" fx:controller="e_commerce.Controller">
     <children>
         <Group fx:id="shoppingCart" layoutX="575.0" layoutY="37.0">
             <children>
-                <Button fx:id="carrello" mnemonicParsing="false" prefHeight="90.0" prefWidth="93.0" />
-                <ImageView fitHeight="71.0" fitWidth="67.0" layoutX="13.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true">
+                <Button fx:id="carrello" mnemonicParsing="false" prefHeight="90.0" prefWidth="93.0"/>
+                <ImageView fitHeight="71.0" fitWidth="67.0" layoutX="13.0" layoutY="12.0" pickOnBounds="true"
+                           preserveRatio="true">
                     <image>
-                        <Image url="@src/img/ic_cart.png" />
+                        <Image url="@src/img/ic_cart.png"/>
                     </image>
                 </ImageView>
-                <Label fx:id="numberOfProducts" alignment="CENTER" contentDisplay="CENTER" layoutX="30.0" layoutY="14.0" prefHeight="34.0" prefWidth="33.0" text="0">
-               <font>
-                  <Font size="27.0" />
-               </font></Label>
+                <Label fx:id="numberOfProducts" alignment="CENTER" contentDisplay="CENTER" layoutX="30.0" layoutY="14.0"
+                       prefHeight="34.0" prefWidth="33.0" text="0">
+                    <font>
+                        <Font size="27.0"/>
+                    </font>
+                </Label>
             </children>
         </Group>
-        <ScrollPane fx:id="scroll" layoutX="-6.0" layoutY="140.0" prefHeight="671.0" prefWidth="741.0" styleClass="transparent" stylesheets="@style.css">
+        <ScrollPane fx:id="scroll" layoutX="-6.0" layoutY="140.0" prefHeight="671.0" prefWidth="741.0"
+                    styleClass="transparent" stylesheets="@style.css">
             <content>
                 <GridPane fx:id="grid" prefHeight="0.0" prefWidth="0.0">
                     <rowConstraints>
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0"/>
                     </rowConstraints>
                 </GridPane>
             </content>
         </ScrollPane>
         <VBox alignment="TOP_CENTER" layoutX="740.0" layoutY="37.0" prefHeight="759.0" prefWidth="217.0">
             <children>
-                <Label fx:id="Label" alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" prefHeight="107.0" prefWidth="217.0" text="SCONTRINO" textOverrun="WORD_ELLIPSIS">
+                <Label fx:id="Label" alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308"
+                       prefHeight="107.0" prefWidth="217.0" text="SCONTRINO" textOverrun="WORD_ELLIPSIS">
                     <font>
-                        <Font name="Cambria" size="24.0" />
+                        <Font name="Cambria" size="24.0"/>
                     </font>
                 </Label>
                 <HBox prefHeight="45.0" prefWidth="217.0">
                     <children>
                         <VBox>
                             <children>
-                                <Label fx:id="Label" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="57.0" prefWidth="150.0" text="DESCRIZIONE">
+                                <Label fx:id="Label" maxHeight="1.7976931348623157E308"
+                                       maxWidth="1.7976931348623157E308" prefHeight="57.0" prefWidth="150.0"
+                                       text="DESCRIZIONE">
                                     <padding>
-                                        <Insets left="10.0" />
+                                        <Insets left="10.0"/>
                                     </padding>
                                 </Label>
                             </children>
                         </VBox>
                         <VBox>
                             <children>
-                                <Label fx:id="Label" alignment="CENTER" contentDisplay="RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="35.0" prefWidth="62.0" text="PREZZO" />
+                                <Label fx:id="Label" alignment="CENTER" contentDisplay="RIGHT"
+                                       maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                                       prefHeight="35.0" prefWidth="62.0" text="PREZZO"/>
                             </children>
                         </VBox>
                     </children>
                 </HBox>
-            <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="545.0" prefWidth="217.0">
-               <children>
-                  <TextArea fx:id="receiptBuilder" prefHeight="557.0" prefWidth="161.0" />
-                  <TextArea id="text-area" fx:id="receiptPriceBuilder" layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="101.0" stylesheets="@style.css" />
-               </children>
-            </HBox>
-            <HBox>
-               <children>
-                  <Label fx:id="Label" alignment="CENTER" contentDisplay="CENTER" prefHeight="30.0" prefWidth="139.0" text="TOTALE SPESA:" />
-                  <Label fx:id="contoTotale" alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="30.0" prefWidth="70.0" textFill="WHITE" />
-               </children>
-            </HBox>
+                <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="545.0"
+                      prefWidth="217.0">
+                    <children>
+                        <TextArea fx:id="receiptBuilder" prefHeight="557.0" prefWidth="161.0"/>
+                        <TextArea id="text-area" fx:id="receiptPriceBuilder" layoutX="10.0" layoutY="10.0"
+                                  prefHeight="200.0" prefWidth="101.0" stylesheets="@style.css"/>
+                    </children>
+                </HBox>
+                <HBox>
+                    <children>
+                        <Label fx:id="Label" alignment="CENTER" contentDisplay="CENTER" prefHeight="30.0"
+                               prefWidth="139.0" text="TOTALE SPESA:"/>
+                        <Label fx:id="contoTotale" alignment="CENTER" contentDisplay="CENTER" layoutX="10.0"
+                               layoutY="10.0" prefHeight="30.0" prefWidth="70.0" textFill="WHITE"/>
+                    </children>
+                </HBox>
             </children>
         </VBox>
         <ImageView fitHeight="132.0" fitWidth="532.0" layoutX="15.0" layoutY="8.0" pickOnBounds="true">
             <image>
-                <Image url="@src/img/Unieuro.jpg" />
+                <Image url="@src/img/Unieuro.jpg"/>
             </image>
         </ImageView>
     </children>

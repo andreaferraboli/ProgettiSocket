@@ -10,7 +10,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
 
-
 import java.io.FileInputStream;
 import java.io.IOException;
 
@@ -64,7 +63,7 @@ public class ItemController {
             pause.play();
         });
         sellButton.setOnMouseClicked(mouseEvent -> {
-            if(Integer.parseInt(numberOfItem.getText()) != 0){
+            if (Integer.parseInt(numberOfItem.getText()) != 0) {
                 numberOfItem.setText(String.valueOf(Integer.parseInt(numberOfItem.getText()) - 1));
                 numberOfProducts.setText(String.valueOf(Integer.parseInt(numberOfProducts.getText()) - 1));
                 try {
@@ -73,13 +72,13 @@ public class ItemController {
                     e.printStackTrace();
                 }
                 itemAnchorPane.setId("productRemoved");
-                    PauseTransition pause = new PauseTransition(
-                            Duration.seconds(0.2)
-                    );
-                    pause.setOnFinished(event -> {
-                        itemAnchorPane.setId("product");
-                    });
-                    pause.play();
+                PauseTransition pause = new PauseTransition(
+                        Duration.seconds(0.2)
+                );
+                pause.setOnFinished(event -> {
+                    itemAnchorPane.setId("product");
+                });
+                pause.play();
             }
 
         });

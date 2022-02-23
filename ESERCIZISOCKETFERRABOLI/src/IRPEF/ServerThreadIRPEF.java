@@ -34,7 +34,7 @@ public class ServerThreadIRPEF extends Thread {
         System.out.println("Esecuzione partita!");
         stringaRicevuta = inDalClient.readLine();
         System.out.println(stringaRicevuta);
-        while (stringaRicevuta != null && !stringaRicevuta.equals("FINE")) {
+        while (stringaRicevuta != null && Integer.parseInt(stringaRicevuta) != -1) {
             int redditoRicevuto = Integer.parseInt(stringaRicevuta);
             stringaModificata = calcoloIrpef(redditoRicevuto);
             outVersoClient.writeBytes(stringaModificata + "\n");

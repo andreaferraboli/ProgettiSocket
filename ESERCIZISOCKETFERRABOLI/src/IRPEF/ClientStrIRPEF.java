@@ -10,7 +10,7 @@ import java.util.Scanner;
 public class ClientStrIRPEF {
 
     String ipServer = "localhost";
-    int portaServer = 6789;
+    int portaServer = 6788;
 
     Socket clientSocket;
     BufferedReader tastiera;
@@ -40,12 +40,12 @@ public class ClientStrIRPEF {
 
     public void comunica() {
         try {
-            System.out.println("Inserisci il reddito da trasmettere al server: ");
+            System.out.println("Inserisci il reddito da trasmettere al server: (-1 per uscire)");
             do {
                 redditoUtente = scan.nextInt();
-                if (redditoUtente < 0)
+                if (redditoUtente < 0 && redditoUtente != -1)
                     System.out.println("è stato inserito un numero negativo,riprovare");
-            } while (redditoUtente < 0);
+            } while (redditoUtente < 0 && redditoUtente != -1);
 
             System.out.println(".. invio la stringa al server e attendo..");
 

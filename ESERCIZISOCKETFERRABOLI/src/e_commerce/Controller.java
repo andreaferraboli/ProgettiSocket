@@ -1,21 +1,15 @@
 package e_commerce;
 
-import javafx.animation.PauseTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Region;
-import javafx.scene.layout.VBox;
-import javafx.util.Duration;
 
 import java.io.*;
 import java.net.Socket;
@@ -26,10 +20,10 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
-    private static Controller instance;
-    AnchorPane anchorPane;
     public static DataOutputStream outVersoServer;
-    private List<Product> products = new ArrayList<>();
+    private static Controller instance;
+    public Label numberOfProducts;
+
     String ipServer = "localhost";
     int portaServer = 6789;
     int portaProduct = 6790;
@@ -38,9 +32,11 @@ public class Controller implements Initializable {
     String stringaRicevutaDalServer;
     BufferedReader inDalServer;
     ObjectInputStream productsFromServer;
+
+
+    private List<Product> products = new ArrayList<>();
     @FXML
     private Label contoTotale;
-    public Label numberOfProducts;
     @FXML
     private Group shoppingCart;
     @FXML
@@ -50,20 +46,23 @@ public class Controller implements Initializable {
     @FXML
     private GridPane grid;
 
+    public static Controller getInstance() {
+        return instance;
+    }
+
     private List<Product> getData() throws IOException, ClassNotFoundException {
-            products=(List<Product>)productsFromServer.readObject();
+        products = (List<Product>) productsFromServer.readObject();
         return products;
     }
 
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        instance=this;
+        instance = this;
         //connection
         try {
             System.out.println("Client partito in esecuzione");
             clientSocket = new Socket(ipServer, portaServer);
-            productSocket=new Socket(ipServer,portaProduct);
+            productSocket = new Socket(ipServer, portaProduct);
             outVersoServer = new DataOutputStream(clientSocket.getOutputStream());
             inDalServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             productsFromServer = new ObjectInputStream(productSocket.getInputStream());
@@ -76,9 +75,7 @@ public class Controller implements Initializable {
 
         try {
             products.addAll(getData());
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
         numberOfProducts.setText(String.valueOf(0));
@@ -122,27 +119,26 @@ public class Controller implements Initializable {
                     StringBuilder scontrino = new StringBuilder();
                     String line;
                     try {
-                        StringBuilder descrizione=new StringBuilder();
-                        StringBuilder prezzo=new StringBuilder();
+                        StringBuilder descrizione = new StringBuilder();
+                        StringBuilder prezzo = new StringBuilder();
                         while ((line = inDalServer.readLine()) != null) {
 //                            if(line.contains("totale spesa")) {
 //                                receiptBuilder.getItems().add(new Label("SPESA TOTALE:"));
 //                                receiptPriceBuilder.getItems().add(new Label(line.replace("totale spesa:", "")));
 //                            }else{
-                            if (line.contains("totale")){
+                            if (line.contains("totale")) {
                                 String[] parts = line.split(";");
-                                contoTotale.setText(parts[1]+"€");
-                            } else if (!line.equals("")){
+                                contoTotale.setText(parts[1] + "€");
+                            } else if (!line.equals("")) {
                                 String[] parts = line.split(";");
-                                descrizione.append(parts[0]+"\n");
-                                prezzo.append(parts[1]+"€\n");
+                                descrizione.append(parts[0] + "\n");
+                                prezzo.append(parts[1] + "€\n");
                                 receiptBuilder.setText(descrizione.toString());
                                 receiptPriceBuilder.setText(prezzo.toString());
                             }
 //                            scontrino.append(line).append("\n");
 
                         }
-
 
 
                         stringaRicevutaDalServer = scontrino.toString();
@@ -159,9 +155,5 @@ public class Controller implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public static Controller getInstance() {
-        return instance;
     }
 }

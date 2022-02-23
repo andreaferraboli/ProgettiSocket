@@ -22,7 +22,7 @@ public class ServerTCPCOMMERCE {
             Socket newproductsClient = serverProductsSocket.accept();
             Socket newClient = serverSocket.accept();
             System.out.println("Client connesso...");
-            ServerThreadCOMMERCE clientConnection = new ServerThreadCOMMERCE(newClient,newproductsClient);
+            ServerThreadCOMMERCE clientConnection = new ServerThreadCOMMERCE(newClient, newproductsClient);
             clientConnection.start();
 
         }

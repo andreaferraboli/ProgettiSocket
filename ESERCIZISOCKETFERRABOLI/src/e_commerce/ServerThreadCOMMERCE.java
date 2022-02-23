@@ -18,18 +18,18 @@ public class ServerThreadCOMMERCE extends Thread {
     DataOutputStream outVersoClient;
     ObjectOutputStream productsToClient;
 
-    public ServerThreadCOMMERCE(Socket client,Socket products) throws IOException {
+    public ServerThreadCOMMERCE(Socket client, Socket products) throws IOException {
         this.client = client;
         this.products = products;
         inDalClient = new BufferedReader(new InputStreamReader(this.client.getInputStream()));
         outVersoClient = new DataOutputStream(this.client.getOutputStream());
-        productsToClient=new ObjectOutputStream(this.products.getOutputStream());
+        productsToClient = new ObjectOutputStream(this.products.getOutputStream());
     }
 
     public void comunica() throws Exception {
         articoli.addAll(getData());
 
-            productsToClient.writeObject(articoli);
+        productsToClient.writeObject(articoli);
 
         System.out.println("Esecuzione partita!");
 
@@ -37,19 +37,18 @@ public class ServerThreadCOMMERCE extends Thread {
         System.out.println(stringaRicevuta);
         while (stringaRicevuta != null && Integer.parseInt(stringaRicevuta) != 0) {
             int prodotto = Integer.parseInt(stringaRicevuta);
-            if(prodotto > 0) {
+            if (prodotto > 0) {
                 for (Product articolo : articoli) {
                     if (articolo.getId_product() == prodotto)
                         carrello.add(articolo);
                 }
-            }else{
-                prodotto=-prodotto;
+            } else {
+                prodotto = -prodotto;
                 for (Product articolo : articoli) {
                     if (articolo.getId_product() == prodotto)
                         carrello.remove(articolo);
                 }
             }
-
 
 
             System.out.println("Stringa ricevuta e trasmessa. " + prodotto);
@@ -141,9 +140,9 @@ public class ServerThreadCOMMERCE extends Thread {
             prezzo += i.getPrice();
         }
         double temp = Math.pow(10, 2);
-        prezzo= Math.ceil(prezzo * temp) / temp;
+        prezzo = Math.ceil(prezzo * temp) / temp;
 //        return scontrino + "\n";
-        return scontrino + "\n"+"totale;"+prezzo+"\n" ;
+        return scontrino + "\n" + "totale;" + prezzo + "\n";
     }
 
 

@@ -44,7 +44,7 @@ public class ClientStrIMPICCATO {
 
         try {
             do {
-                if(terminate)
+                if (terminate)
                     System.out.println("DIGITARE 'fine' PER ARRENDERSI | DIGITARE 'ricomincia' PER RICOMINCIARE: ");
                 else
                     System.out.println("DIGITARE LA LETTERA PER INDOVINARE LA PAROLA | DIGITARE 'fine' PER ARRENDERSI | DIGITARE 'ricomincia' PER RICOMINCIARE: ");
@@ -60,11 +60,13 @@ public class ClientStrIMPICCATO {
                 System.out.println(stringaRicevutaDalServer);
                 clientSocket.close();
                 System.exit(2);
-            } else if(stringaRicevutaDalServer.contains("numero tentativi finito...")) {
-                terminate=true;
+            } else if (stringaRicevutaDalServer.contains("numero tentativi finito...") || stringaRicevutaDalServer.contains("numero tentativi rimasti:0")) {
+                terminate = true;
                 System.out.println(stringaRicevutaDalServer);
-            }else
+            } else {
+                terminate = false;
                 System.out.println(stringaRicevutaDalServer);
+            }
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
